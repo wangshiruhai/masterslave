@@ -1,0 +1,10 @@
+server:
+    port: 8080
+spring:
+    application:
+      name: curdmini
+    datasource:
+      url: jdbc:mysql://IP:PORT/databaseName?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: USERNAME
+      password: PASSWORD
