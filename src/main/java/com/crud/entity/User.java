@@ -1,5 +1,6 @@
 package com.crud.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import lombok.Data;
 
@@ -10,6 +11,7 @@ import lombok.Data;
  */
 @Data
 public class User implements Serializable {
+    @TableId
     private Long id;
     private String name;
     private Integer age;
