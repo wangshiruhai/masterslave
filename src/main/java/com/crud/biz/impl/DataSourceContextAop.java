@@ -30,7 +30,7 @@ public class DataSourceContextAop {
             DataSourceSwitcher dataSourceSwitcher = method.getAnnotation(DataSourceSwitcher.class);
             clear = dataSourceSwitcher.clear();
             DataSourceContextHolder.set(dataSourceSwitcher.value().getDataSourceName());
-            log.info("数据源切换至：{}", dataSourceSwitcher.value().getDataSourceName());
+            log.info("数据源：{}", dataSourceSwitcher.value().getDataSourceName());
             return pjp.proceed();
         } finally {
             if (clear) {
