@@ -2,9 +2,21 @@ server:
     port: 8080
 spring:
     application:
-      name: curdmini
+      name: masterslave
     datasource:
-      url: jdbc:mysql://IP:PORT/databaseName?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      username: USERNAME
-      password: PASSWORD
+      druid:
+        db-type: com.alibaba.druid.pool.DruidDataSource
+      master:
+        url: jdbc:mysql://IP:PORT/MASTER_DATABASE?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: USERNAME
+        password: PASSWORD
+      slave:
+        url: jdbc:mysql://IP:PORT/SLAVE_DATABASE?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: USERNAME
+        password: PASSWORD
+
+
+mybatis-plus:
+  mapper-locations: "classpath*:/mapper/*.xml"
