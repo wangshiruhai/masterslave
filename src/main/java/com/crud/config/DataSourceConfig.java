@@ -6,6 +6,7 @@ import com.crud.context.DataSourceEnum;
 import com.crud.context.DataSourceRouter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -34,11 +35,20 @@ public class DataSourceConfig {
     }
 
     /**
+     * 从库1
+     */
+    @Bean
+    @ConfigurationProperties(prefix = "spring.datasource.slave1")
+    public DataSource slaver1() {
+        return DruidDataSourceBuilder.create().build();
+    }
+
+    /**
      * 从库
      */
     @Bean
-    @ConfigurationProperties(prefix = "spring.datasource.slave")
-    public DataSource slaver() {
+    @ConfigurationProperties(prefix = "spring.datasource.slave2")
+    public DataSource slaver2() {
         return DruidDataSourceBuilder.create().build();
     }
 
@@ -48,12 +58,16 @@ public class DataSourceConfig {
      */
     @Bean
     public DataSourceRouter dynamicDB(@Qualifier("master") DataSource masterDataSource,
-            @Autowired(required = false) @Qualifier("slaver") DataSource slaveDataSource) {
+            @Autowired(required = false) @Qualifier("slaver1") DataSource slave1DataSource,
+            @Autowired(required = false) @Qualifier("slaver2") DataSource slave2DataSource) {
         DataSourceRouter dynamicDataSource = new DataSourceRouter();
         Map<Object, Object> targetDataSources = new HashMap<>();
         targetDataSources.put(DataSourceEnum.MASTER.getDataSourceName(), masterDataSource);
-        if (slaveDataSource != null) {
-            targetDataSources.put(DataSourceEnum.SLAVE.getDataSourceName(), slaveDataSource);
+        if (Objects.nonNull(slave1DataSource)) {
+            targetDataSources.put(DataSourceEnum.SLAVE1.getDataSourceName(), slave1DataSource);
+        }
+        if (Objects.nonNull(slave2DataSource)) {
+            targetDataSources.put(DataSourceEnum.SLAVE2.getDataSourceName(), slave2DataSource);
         }
         dynamicDataSource.setTargetDataSources(targetDataSources);
         dynamicDataSource.setDefaultTargetDataSource(masterDataSource);

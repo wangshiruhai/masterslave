@@ -9,6 +9,7 @@ import com.crud.entity.vo.UserReq;
 import com.crud.mapper.UserMapper;
 import java.util.List;
 import javax.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
  * @author tommy
  * @date 11/6/21
  */
+@Slf4j
 @Service
 public class UserServiceImpl implements IUserService {
 
@@ -34,7 +36,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public boolean saveUser(UserReq user) {
         List<User> userList = findUserList();
-        System.out.println(userList.size());
+        log.info("userList is:{} ", userList.size());
         User dbUser = new User();
         BeanUtils.copyProperties(user,dbUser);
         boolean result = userMapper.insert(dbUser) > 0;
